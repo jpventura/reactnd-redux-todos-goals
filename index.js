@@ -34,7 +34,7 @@ function createStore(reducer) {
 // App code
 function todos(state = [], action) {
   if (action.type === 'ADD_TODO') {
-    return state.contact([action.todo]);
+    return state.concat([action.todo]);
   }
 
   return state;
@@ -46,9 +46,27 @@ store.subscribe(() => {
   console.log('The new state is ', store.getState());
 });
 
+store.dispatch({
+  todo: {
+    complete: false,
+    id: 0,
+    name: 'Learn Redux',
+  },
+  type: 'ADD_TODO',
+});
+
+store.dispatch({
+  todo: {
+    complete: true,
+    id: 1,
+    name: 'Read a book',
+  },
+  type: 'ADD_TODO',
+});
+
 const unsubscribe = store.subscribe(() => {
   console.log('The store changed');
 });
 unsubscribe();
 
-export default createStore;
+module.export = createStore;
