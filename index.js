@@ -4,6 +4,8 @@ function createStore() {
   // 2. Get the state
   // 3. Listen to changes on the state
   // 4. Update the state
+
+  let state;
 }
 
 export default createStore;
