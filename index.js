@@ -1,12 +1,5 @@
-function todos(state = [], action) {
-  if (action.type === 'ADD_TODO') {
-    return state.contact([action.todo]);
-  }
-
-  return state;
-}
-
-function createStore() {
+// Library code
+function createStore(reducer) {
   // The store should have four parts
   // 1. The state
   // 2. Get the state
@@ -17,7 +10,7 @@ function createStore() {
   let listeners = [];
 
   const dispatch = (action) => {
-    state = todos(state, action);
+    state = reducer(state, action);
     listeners.forEach(listener => listener());
   };
 
@@ -38,7 +31,17 @@ function createStore() {
   };
 }
 
-const store = createStore();
+// App code
+function todos(state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.contact([action.todo]);
+  }
+
+  return state;
+}
+
+const store = createStore(todos);
+
 store.subscribe(() => {
   console.log('The new state is ', store.getState());
 });
