@@ -16,6 +16,11 @@ function createStore() {
   let state;
   let listeners = [];
 
+  const dispatch = (action) => {
+    state = todos(state, action);
+    listeners.forEach(listener => listener());
+  };
+
   const getState = () => state;
 
   const subscribe = (listener) => {
@@ -27,6 +32,7 @@ function createStore() {
   };
 
   return {
+    dispatch,
     getState,
     subscribe,
   };
