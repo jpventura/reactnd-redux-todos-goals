@@ -74,10 +74,27 @@
       }
     }
 
-    const store = Redux.createStore(Redux.combineReducers({
-      goals,
-      todos
-    }));
+    const checker = (store) => (next) => (action) => {
+      if (
+        action.type == ADD_GOAL &&
+        action.goal.name.toLowerCase().includes('bitcoin')
+      ) {
+        return alert("Nope. That's a bad idea");
+      }
+
+      if (
+        action.type == ADD_TODO &&
+        action.todo.name.toLowerCase().includes('bitcoin')
+      ) {
+        return alert("Nope. That's a bad idea");
+      }
+      return next(action);
+    };
+
+    const store = Redux.createStore(
+      Redux.combineReducers({ goals, todos }),
+      Redux.applyMiddleware(checker)
+    );
 
     store.subscribe(() => {
       const { goals, todos } = store.getState();
@@ -149,6 +166,17 @@
             id: id,
             type: TOOGLE_TODO,
           });
+      }
+
+      function addTodoAction(id) {
+        return {
+          todo: {
+            complete: false,
+            id: generateId(),
+            name,
+          },
+          type: ADD_TODO,
+        }
       }
 
       function removeTodoAction(id) {
