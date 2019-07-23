@@ -178,6 +178,13 @@
           });
       }
 
+      function toggleTodo(id) {
+          store.dispatch({
+            id: id,
+            type: TOOGLE_TODO,
+          });
+      }
+
       document.getElementById('todo_btn')
         .addEventListener('click', addTodo)
 
@@ -188,6 +195,10 @@
         const node = document.createElement('li');
         const text = document.createTextNode(todo.name);
         node.appendChild(text);
+        node.style.textDecoration = todo.complete ? 'line-through' : 'none'
+        node.addEventListener('click', () => {
+          toggleTodo(todo.id);
+        });
         document.getElementById('todos').appendChild(node);
       }
 
