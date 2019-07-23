@@ -91,9 +91,18 @@
       return next(action);
     };
 
+    const logger = (store) => (next) => (action) => {
+      console.group(action.type);
+      console.log(`The action: ${action}`);
+      console.log('The new state is: ', store.getState());
+      const result = next(action);
+      console.groupEnd();
+      return result;
+    }
+
     const store = Redux.createStore(
       Redux.combineReducers({ goals, todos }),
-      Redux.applyMiddleware(checker)
+      Redux.applyMiddleware(checker, logger)
     );
 
     store.subscribe(() => {
