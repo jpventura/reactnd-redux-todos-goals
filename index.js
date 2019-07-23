@@ -41,6 +41,16 @@ function todos(state = [], action) {
     return state.filter(todo => todo.id !== action.id);
   }
 
+  if (action.type === 'TOOGLE_TODO') {
+    return state.map((todo) => {
+      if (todo.id !== action.id) {
+        return todo;
+      }
+
+      return Object.assign({}, todo, { complete: !todo.complete });
+    });
+  }
+
   return state;
 }
 
