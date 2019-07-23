@@ -37,6 +37,10 @@ function todos(state = [], action) {
     return state.concat([action.todo]);
   }
 
+  if (action.type === 'REMOVE_TODO') {
+    return state.filter(todo => todo.id !== action.id);
+  }
+
   return state;
 }
 
