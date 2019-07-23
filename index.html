@@ -185,16 +185,42 @@
           });
       }
 
+      function removeTodoAction(id) {
+        return {
+          id: id,
+          type: REMOVE_TODO,
+        }
+      }
+
+      function removeGoalAction(id) {
+        return {
+          id: id,
+          type: REMOVE_GOAL,
+        }
+      }
+
       document.getElementById('todo_btn')
         .addEventListener('click', addTodo)
 
       document.getElementById('goal_btn')
         .addEventListener('click', addGoal)
 
+      function createRemoveButton(onClick) {
+        const removeButton = document.createElement('button');
+        removeButton.innerHTML = 'X';
+        removeButton.addEventListener('click', onClick)
+        return removeButton;
+      }
+
       function addTodoToDOM(todo) {
         const node = document.createElement('li');
         const text = document.createTextNode(todo.name);
+        const removeButton = createRemoveButton(() => {
+          store.dispatch(removeTodoAction(todo.id));
+        });
+
         node.appendChild(text);
+        node.appendChild(removeButton);
         node.style.textDecoration = todo.complete ? 'line-through' : 'none'
         node.addEventListener('click', () => {
           toggleTodo(todo.id);
@@ -205,7 +231,12 @@
       function addGoalToDOM(goal) {
         const node = document.createElement('li');
         const text = document.createTextNode(goal.name);
+        const removeButton = createRemoveButton(() => {
+          store.dispatch(removeGoalAction(goal.id));
+        });
+
         node.appendChild(text);
+        node.appendChild(removeButton);
         document.getElementById('goals').appendChild(node);
       }
   </script>
